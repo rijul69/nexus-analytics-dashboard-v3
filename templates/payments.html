@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Payments{% endblock %}
+{% block page_title %}Payment Analytics{% endblock %}
+{% block page_subtitle %}Payment methods, installments and revenue breakdown{% endblock %}
+
+{% block content %}
+
+<div class="kpi-grid">
+  <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Total</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_revenue }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Revenue</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Volume</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Total Orders</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> AOV</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_order_value }}" data-prefix="R$ " data-decimal="true">0</div>
+    <div class="kpi-label">Avg Order Value</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-3);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-people-fill"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Base</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_customers }}">0</div>
+    <div class="kpi-label">Paying Customers</div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-pie-chart-fill"></i> Payment Methods</div>
+      <span class="chart-card-badge">Share</span>
+    </div>
+    <div id="chartPaymentPie" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartPaymentPie">{{ charts.payment_pie | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-layers-fill"></i> Installments</div>
+      <span class="chart-card-badge">Distribution</span>
+    </div>
+    <div id="chartInstallments" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartInstallments">{{ charts.installments | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-cash-coin"></i> Revenue by Method</div>
+      <span class="chart-card-badge">Value</span>
+    </div>
+    <div id="chartPaymentRevenue" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartPaymentRevenue">{{ charts.payment_revenue | tojson }}</script>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-12">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-activity"></i> Payment Method Trend Over Time</div>
+      <span class="chart-card-badge">Monthly</span>
+    </div>
+    <div id="chartPaymentTrend" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartPaymentTrend">{{ charts.payment_trend | tojson }}</script>
+  </div>
+</div>
+
+{% endblock %}

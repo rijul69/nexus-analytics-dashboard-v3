@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Reviews{% endblock %}
+{% block page_title %}Review & Satisfaction Analytics{% endblock %}
+{% block page_subtitle %}Customer sentiment, ratings and category-level satisfaction{% endblock %}
+
+{% block content %}
+
+<div class="kpi-grid">
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-star-fill"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> CSAT</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_rating }}" data-decimal="true">0</div>
+    <div class="kpi-label">Average Rating / 5</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Volume</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Total Orders Reviewed</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-2);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-truck"></i></div>
+      <div class="kpi-trend down"><i class="bi bi-arrow-down-short"></i> Speed</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_delivery }}" data-decimal="true" data-suffix=" days">0</div>
+    <div class="kpi-label">Avg Delivery Days</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-4);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Catalog</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_products }}">0</div>
+    <div class="kpi-label">Products Rated</div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-star-half"></i> Review Score Distribution</div>
+      <span class="chart-card-badge">1-5 Scale</span>
+    </div>
+    <div id="chartReviewDist" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartReviewDist">{{ charts.review_distribution | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-graph-up"></i> Rating Trend Over Time</div>
+      <span class="chart-card-badge">Monthly</span>
+    </div>
+    <div id="chartReviewTrend" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartReviewTrend">{{ charts.review_trend | tojson }}</script>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-12">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-award-fill"></i> Top Rated Categories (Min 20 Reviews)</div>
+      <span class="chart-card-badge">Top 10</span>
+    </div>
+    <div id="chartReviewCategory" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartReviewCategory">{{ charts.review_by_category | tojson }}</script>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Customers{% endblock %}
+{% block page_title %}Customer Analytics{% endblock %}
+{% block page_subtitle %}Geography, loyalty and top-spending customers{% endblock %}
+
+{% block content %}
+
+<div class="kpi-grid">
+  <div class="kpi-card" style="--kpi-grad: var(--grad-3);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-people-fill"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Base</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_customers }}">0</div>
+    <div class="kpi-label">Total Customers</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Volume</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Total Orders</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> AOV</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_order_value }}" data-prefix="R$ " data-decimal="true">0</div>
+    <div class="kpi-label">Avg Order Value</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Revenue</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_revenue }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Revenue</div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-7">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-map-fill"></i> Customer State Distribution</div>
+      <span class="chart-card-badge">Top 15</span>
+    </div>
+    <div id="chartCustState" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartCustState">{{ charts.customer_state_distribution | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-5">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-building"></i> Top Customer Cities</div>
+      <span class="chart-card-badge">Top 10</span>
+    </div>
+    <div id="chartCustCity" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartCustCity">{{ charts.customer_city | tojson }}</script>
+  </div>
+</div>
+
+<h3 class="section-title"><i class="bi bi-trophy-fill"></i> Top Customers by Spend</h3>
+<div class="data-table-wrap">
+  <table class="nexus-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Customer ID</th>
+        <th>City</th>
+        <th>State</th>
+        <th># Orders</th>
+        <th>Total Spent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+      <tr>
+        <td>
+          <span class="rank-badge {% if loop.index==1 %}top1{% elif loop.index==2 %}top2{% elif loop.index==3 %}top3{% endif %}">{{ loop.index }}</span>
+        </td>
+        <td><code>{{ row.customer_unique_id }}</code></td>
+        <td>{{ row.city }}</td>
+        <td><span class="badge-pill">{{ row.state }}</span></td>
+        <td>{{ row.orders }}</td>
+        <td class="strong">R$ {{ "{:,.2f}".format(row.spent) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

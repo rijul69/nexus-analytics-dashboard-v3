@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Sellers{% endblock %}
+{% block page_title %}Seller Performance{% endblock %}
+{% block page_subtitle %}Marketplace seller rankings, geography and revenue{% endblock %}
+
+{% block content %}
+
+<div class="kpi-grid">
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-shop"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Network</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_sellers }}">0</div>
+    <div class="kpi-label">Total Sellers</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Revenue</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_revenue }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Revenue</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Volume</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Total Orders</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-star-fill"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> CSAT</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_rating }}" data-decimal="true">0</div>
+    <div class="kpi-label">Average Rating / 5</div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-7">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-shop-window"></i> Top Sellers</div>
+      <span class="chart-card-badge">By Revenue</span>
+    </div>
+    <div id="chartTopSellers" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopSellers">{{ charts.top_sellers | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-5">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-geo-alt-fill"></i> Sellers by State</div>
+      <span class="chart-card-badge">Top 12</span>
+    </div>
+    <div id="chartSellerStates" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartSellerStates">{{ charts.seller_states | tojson }}</script>
+  </div>
+</div>
+
+<h3 class="section-title"><i class="bi bi-trophy-fill"></i> Top Sellers Leaderboard</h3>
+<div class="data-table-wrap">
+  <table class="nexus-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Seller ID</th>
+        <th>City</th>
+        <th>State</th>
+        <th># Orders</th>
+        <th>Revenue</th>
+        <th>Avg Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+      <tr>
+        <td>
+          <span class="rank-badge {% if loop.index==1 %}top1{% elif loop.index==2 %}top2{% elif loop.index==3 %}top3{% endif %}">{{ loop.index }}</span>
+        </td>
+        <td><code>{{ row.seller_id }}</code></td>
+        <td>{{ row.city }}</td>
+        <td><span class="badge-pill">{{ row.state }}</span></td>
+        <td>{{ row.orders }}</td>
+        <td class="strong">R$ {{ "{:,.2f}".format(row.revenue) }}</td>
+        <td><span class="rating-stars">★ {{ "%.2f"|format(row.avg_rating) if row.avg_rating == row.avg_rating else "N/A" }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

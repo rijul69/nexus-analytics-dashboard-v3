@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Products{% endblock %}
+{% block page_title %}Product Analytics{% endblock %}
+{% block page_subtitle %}Catalog performance, category insights and top sellers{% endblock %}
+
+{% block content %}
+
+<div class="kpi-grid">
+  <div class="kpi-card" style="--kpi-grad: var(--grad-4);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> SKUs</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_products }}">0</div>
+    <div class="kpi-label">Total Products</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Sales</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_sales }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Product Sales</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Volume</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Orders Placed</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-wallet2"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> AOV</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_order_value }}" data-prefix="R$ " data-decimal="true">0</div>
+    <div class="kpi-label">Avg Order Value</div>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-tags-fill"></i> Top 10 Categories</div>
+      <span class="chart-card-badge">By Sales</span>
+    </div>
+    <div id="chartTopCategories" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopCategories">{{ charts.top_categories | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-box-seam-fill"></i> Top 10 Products</div>
+      <span class="chart-card-badge">By Revenue</span>
+    </div>
+    <div id="chartTopProducts" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopProducts">{{ charts.top_products | tojson }}</script>
+  </div>
+</div>
+
+<h3 class="section-title"><i class="bi bi-table"></i> Category Performance Table</h3>
+<div class="data-table-wrap">
+  <table class="nexus-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Category</th>
+        <th># Products</th>
+        <th># Orders</th>
+        <th>Total Sales</th>
+        <th>Avg Price</th>
+        <th>Avg Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in table %}
+      <tr>
+        <td>
+          <span class="rank-badge {% if loop.index==1 %}top1{% elif loop.index==2 %}top2{% elif loop.index==3 %}top3{% endif %}">{{ loop.index }}</span>
+        </td>
+        <td><strong>{{ row.product_category_name_english }}</strong></td>
+        <td>{{ "{:,}".format(row.products) }}</td>
+        <td>{{ "{:,}".format(row.orders) }}</td>
+        <td class="strong">R$ {{ "{:,.2f}".format(row.sales) }}</td>
+        <td>R$ {{ "%.2f"|format(row.avg_price) }}</td>
+        <td><span class="rating-stars">★ {{ "%.2f"|format(row.avg_rating) if row.avg_rating == row.avg_rating else "N/A" }}</span></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

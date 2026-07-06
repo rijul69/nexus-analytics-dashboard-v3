@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Executive Dashboard{% endblock %}
+{% block page_subtitle %}Real-time overview of your e-commerce performance{% endblock %}
+
+{% block content %}
+
+<!-- ================= KPI CARDS ================= -->
+<div class="kpi-grid">
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Sales</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_sales }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Sales</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-8);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-receipt"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Orders</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+    <div class="kpi-label">Total Orders</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-3);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-people"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Base</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_customers }}">0</div>
+    <div class="kpi-label">Total Customers</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-4);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-box-seam"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Catalog</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_products }}">0</div>
+    <div class="kpi-label">Total Products</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-shop"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Network</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_sellers }}">0</div>
+    <div class="kpi-label">Total Sellers</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-5);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-star-fill"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> CSAT</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_rating }}" data-decimal="true">0</div>
+    <div class="kpi-label">Average Rating / 5</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-2);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-truck"></i></div>
+      <div class="kpi-trend down"><i class="bi bi-arrow-down-short"></i> Speed</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.avg_delivery }}" data-decimal="true" data-suffix=" days">0</div>
+    <div class="kpi-label">Avg Delivery Days</div>
+  </div>
+
+  <div class="kpi-card" style="--kpi-grad: var(--grad-7);">
+    <div class="kpi-top">
+      <div class="kpi-icon"><i class="bi bi-graph-up-arrow"></i></div>
+      <div class="kpi-trend"><i class="bi bi-arrow-up-short"></i> Revenue</div>
+    </div>
+    <div class="kpi-value kpi-count" data-value="{{ kpis.total_revenue }}" data-prefix="R$ ">0</div>
+    <div class="kpi-label">Total Revenue</div>
+  </div>
+
+</div>
+
+<!-- ================= ROW 1: TREND CHARTS ================= -->
+<div class="chart-grid">
+  <div class="chart-card col-8">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-graph-up"></i> Monthly Sales Trend</div>
+      <span class="chart-card-badge">Time Series</span>
+    </div>
+    <div id="chartSalesTrend" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartSalesTrend">{{ charts.monthly_sales_trend | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-pie-chart-fill"></i> Payment Methods</div>
+      <span class="chart-card-badge">Share</span>
+    </div>
+    <div id="chartPaymentPie" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartPaymentPie">{{ charts.payment_pie | tojson }}</script>
+  </div>
+</div>
+
+<!-- ================= ROW 2 ================= -->
+<div class="chart-grid">
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-bar-chart-fill"></i> Monthly Orders</div>
+      <span class="chart-card-badge">Volume</span>
+    </div>
+    <div id="chartMonthlyOrders" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartMonthlyOrders">{{ charts.monthly_orders | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-6">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-currency-exchange"></i> Revenue by Month</div>
+      <span class="chart-card-badge">Seasonality</span>
+    </div>
+    <div id="chartRevenueMonth" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartRevenueMonth">{{ charts.revenue_by_month | tojson }}</script>
+  </div>
+</div>
+
+<!-- ================= ROW 3: TOP RANKINGS ================= -->
+<div class="chart-grid">
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-tags-fill"></i> Top 10 Categories</div>
+      <span class="chart-card-badge">By Sales</span>
+    </div>
+    <div id="chartTopCategories" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopCategories">{{ charts.top_categories | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-geo-alt-fill"></i> Top 10 States</div>
+      <span class="chart-card-badge">By Orders</span>
+    </div>
+    <div id="chartTopStates" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopStates">{{ charts.top_states | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-shop-window"></i> Top Sellers</div>
+      <span class="chart-card-badge">By Revenue</span>
+    </div>
+    <div id="chartTopSellers" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartTopSellers">{{ charts.top_sellers | tojson }}</script>
+  </div>
+</div>
+
+<!-- ================= ROW 4 ================= -->
+<div class="chart-grid">
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-star-half"></i> Review Score Distribution</div>
+      <span class="chart-card-badge">CSAT</span>
+    </div>
+    <div id="chartReviewDist" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartReviewDist">{{ charts.review_distribution | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-truck"></i> Delivery Days Analysis</div>
+      <span class="chart-card-badge">Fulfillment</span>
+    </div>
+    <div id="chartDelivery" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartDelivery">{{ charts.delivery_days | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-4">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-wallet2"></i> Average Order Value</div>
+      <span class="chart-card-badge">Trend</span>
+    </div>
+    <div id="chartAOV" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartAOV">{{ charts.avg_order_value | tojson }}</script>
+  </div>
+</div>
+
+<!-- ================= ROW 5 ================= -->
+<div class="chart-grid">
+  <div class="chart-card col-5">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-calendar-week"></i> Orders by Weekday</div>
+      <span class="chart-card-badge">Pattern</span>
+    </div>
+    <div id="chartWeekday" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartWeekday">{{ charts.orders_weekday | tojson }}</script>
+  </div>
+
+  <div class="chart-card col-7">
+    <div class="chart-card-header">
+      <div class="chart-card-title"><i class="bi bi-map-fill"></i> Customer State Distribution</div>
+      <span class="chart-card-badge">Top 15</span>
+    </div>
+    <div id="chartCustState" class="plotly-chart"></div>
+    <script type="application/json" data-for="chartCustState">{{ charts.customer_state_distribution | tojson }}</script>
+  </div>
+</div>
+
+{% endblock %}

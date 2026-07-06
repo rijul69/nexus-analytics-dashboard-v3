@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block page_title %}About This Project{% endblock %}
+{% block page_subtitle %}Project overview, technology stack and dataset information{% endblock %}
+
+{% block content %}
+
+<div class="about-hero">
+  <h2><i class="bi bi-hexagon-fill" style="color:var(--accent-indigo);"></i> Nexus Analytics</h2>
+  <p>
+    Nexus Analytics is a full-stack, business-intelligence-grade e-commerce sales analytics platform
+    built as a Data Science major project. It transforms a raw transactional e-commerce dataset into
+    a real-time, interactive executive dashboard — covering sales, customers, payments, reviews and
+    seller performance — with the look and feel of production BI tools like Power BI, Tableau and
+    Amazon Seller Central.
+  </p>
+</div>
+
+<h3 class="section-title"><i class="bi bi-cpu-fill"></i> Technology Stack</h3>
+<div class="mb-4">
+  <span class="tech-chip"><i class="bi bi-filetype-py" style="color:#3776AB;"></i> Python</span>
+  <span class="tech-chip"><i class="bi bi-lightning-charge-fill" style="color:#000;"></i> Flask</span>
+  <span class="tech-chip"><i class="bi bi-table" style="color:#150458;"></i> Pandas</span>
+  <span class="tech-chip"><i class="bi bi-bar-chart-line-fill" style="color:#3F4F75;"></i> Plotly</span>
+  <span class="tech-chip"><i class="bi bi-bootstrap-fill" style="color:#7952B3;"></i> Bootstrap 5</span>
+  <span class="tech-chip"><i class="bi bi-filetype-html" style="color:#E34F26;"></i> HTML5</span>
+  <span class="tech-chip"><i class="bi bi-filetype-css" style="color:#1572B6;"></i> CSS3</span>
+  <span class="tech-chip"><i class="bi bi-filetype-js" style="color:#F7DF1E;"></i> JavaScript</span>
+</div>
+
+<h3 class="section-title"><i class="bi bi-stars"></i> Key Features</h3>
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-1);"><i class="bi bi-speedometer2"></i></div>
+      <h5>Executive Dashboard</h5>
+      <p>8 real-time KPIs and 12 interactive Plotly charts summarizing sales, orders and fulfillment health.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-2);"><i class="bi bi-funnel-fill"></i></div>
+      <h5>Dynamic Filtering</h5>
+      <p>Filter every page live by year, month, state, payment type and category — all charts and KPIs recompute instantly.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-3);"><i class="bi bi-people-fill"></i></div>
+      <h5>360° Customer View</h5>
+      <p>Geography, top spenders, city-level breakdowns and loyalty metrics on a dedicated customer page.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-4);"><i class="bi bi-box-seam-fill"></i></div>
+      <h5>Product Intelligence</h5>
+      <p>Category performance table, top products, and pricing analytics computed directly from the dataset.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-5);"><i class="bi bi-star-fill"></i></div>
+      <h5>Review Sentiment</h5>
+      <p>Rating distribution, category satisfaction rankings and rating trend over time.</p>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="feature-card">
+      <div class="feature-icon" style="background: var(--grad-6);"><i class="bi bi-shop-window"></i></div>
+      <h5>Seller Leaderboard</h5>
+      <p>Top-performing sellers by revenue, state-level seller density, and full leaderboard table.</p>
+    </div>
+  </div>
+</div>
+
+<h3 class="section-title"><i class="bi bi-database-fill"></i> Dataset Information</h3>
+<div class="row g-3 mb-4">
+  <div class="col-md-3 col-6">
+    <div class="kpi-card" style="--kpi-grad: var(--grad-1);">
+      <div class="kpi-value kpi-count" data-value="{{ kpis.total_orders }}">0</div>
+      <div class="kpi-label">Total Orders</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-card" style="--kpi-grad: var(--grad-2);">
+      <div class="kpi-value kpi-count" data-value="{{ kpis.total_customers }}">0</div>
+      <div class="kpi-label">Unique Customers</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-card" style="--kpi-grad: var(--grad-3);">
+      <div class="kpi-value kpi-count" data-value="{{ kpis.total_products }}">0</div>
+      <div class="kpi-label">Unique Products</div>
+    </div>
+  </div>
+  <div class="col-md-3 col-6">
+    <div class="kpi-card" style="--kpi-grad: var(--grad-4);">
+      <div class="kpi-value kpi-count" data-value="{{ kpis.total_sellers }}">0</div>
+      <div class="kpi-label">Unique Sellers</div>
+    </div>
+  </div>
+</div>
+
+<p class="text-secondary mb-4" style="font-size:13.5px; max-width:800px;">
+  The dataset (<code>cleaned_ecommerce.csv</code>) contains 42 columns covering order lifecycle timestamps,
+  customer and seller geography, product attributes, payment details, review scores and derived fields
+  such as <code>Delivery_Days</code> and <code>Total_Amount</code>. It spans multiple years of e-commerce
+  transactions and powers every metric on this dashboard directly — no static or placeholder values are used.
+</p>
+
+<h3 class="section-title">
+    <i class="bi bi-person-badge-fill"></i> Developer
+</h3>
+
+<div class="dev-card">
+
+  <div class="dev-avatar">
+    <i class="bi bi-person-circle"></i>
+</div>
+
+    <div>
+
+        <h4 class="mb-2" style="font-weight:700;">
+            Rijul Dogra
+        </h4>
+
+        <p class="mb-1">
+            <strong>Course:</strong> Bachelor of Computer Applications (BCA)
+        </p>
+
+        <p class="mb-1">
+            <strong>Semester:</strong> V
+        </p>
+
+        <p class="mb-1">
+            <strong>College:</strong> CGC University
+        </p>
+
+      <p class="mb-3">
+    <strong>Project:</strong> Nexus Analytics – E-Commerce Business Intelligence Dashboard
+</p>
+
+<p class="mb-1">
+    <strong>Technologies:</strong>
+    Python • Flask • Pandas • Plotly • HTML • CSS • JavaScript
+</p>
+
+<p class="mb-3">
+    <strong>Dataset:</strong>
+    Olist Brazilian E-Commerce Dataset
+</p>
+<a href="https://github.com/rijul69/nexus-analytics-dashboard"
+   target="_blank"
+   class="github-btn">
+
+    <i class="bi bi-github"></i>
+    View Source Code
+
+</a>
+</a>
+
+    </div>
+
+</div>
+{% endblock %}
